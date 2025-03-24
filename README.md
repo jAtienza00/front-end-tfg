@@ -28,6 +28,7 @@ Durante el desarrollo del proyecto, se han empleado las siguientes tecnologías 
 ### Tecnologías de desarrollo web:
 - **HTML5**
 - **CSS**
+- **Tailwind**
 
 ### Frameworks:
 - **Bootstrap**
