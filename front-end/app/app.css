@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+/*html,
+body {
+  @apply bg-white dark:bg-gray-950;
+
+  @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
+  }
+}*/
+.App {
+  text-align: center;
+  background-color: #fdf3f3;
+}
+.cabecera{
+  background-color: #1fbd00;
+  display: flex;
+  min-height: 10vh;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  font-size: calc(5px + 2vmin);
+  color: white;
+}
+.footer {
+  height: 25vh;
+  clip-path: ellipse(100% 60% at 50% 100%);
+  bottom: 0px;
+}
+.footImg {
+  width: 30px;
+}
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* styles.css */
+
+@keyframes colorShift {
+  0% {
+    color: transparent;
+    background-position: 100%;
+  }
+  50% {
+    color: transparent;
+    background-position: 0%;
+  }
+  100% {
+    color: transparent;
+    background-position: 100%;
+  }
+}
+
+.title-hover {
+  background-clip:content-box;
+  display: inline-block;
+  font-size: 2rem;
+  font-weight: bold;
+  background-image: linear-gradient(to right, rgb(255, 255, 255), rgb(167, 167, 167), rgb(0, 0, 0)); /* Degradado de color */
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  color: white;
+  -webkit-background-clip: text; /* Hace que el fondo se vea solo en el texto */
+  transition: background-position 0.5s ease;
+}
+
+.title-hover:hover {
+  animation: colorShift 2s infinite; /* Ejecutar la animación en el hover */
+}
+
+.user-hover {
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: bold;
+  background-clip:content-box;
+  background-image: linear-gradient(to left, rgb(253, 253, 253), rgb(204, 0, 204), rgb(0, 24, 161)); /* Degradado de color */
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  color: white;
+  -webkit-background-clip: text; /* Hace que el fondo se vea solo en el texto */
+  transition: background-position 0.5s ease;
+}
+
+.user-hover:hover {
+  animation: colorShift 3s infinite; /* Ejecutar la animación en el hover */
+}
