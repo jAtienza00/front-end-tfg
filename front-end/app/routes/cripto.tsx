@@ -1,8 +1,9 @@
 import type { Route } from "./+types/cripto";
 import React, { useState, useEffect } from "react";
 import "../app.css";
-import Cargando from "./minimo/cargando";
+import Cargando from "../components/minimo/cargando";
 import { useParams } from "react-router";
+import env from "../services/env";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -76,12 +77,78 @@ interface Cripto {
 const Cripto: React.FC = () => {
   const [coin, setCoin] = useState<Cripto | null>(null); // Ahora es un objeto, no un array
   const [loading, setLoading] = useState<boolean>(true);
+  const [cantidad, setCantidad] = useState<number>(1);
+  const [moneda, setMoneda] = useState<string>("eur");
   const { id } = useParams<{ id: string }>(); // Asegura que `id` es string
+  const arrayMonedas = [
+    "btc",
+    "eth",
+    "ltc",
+    "bch",
+    "bnb",
+    "eos",
+    "xrp",
+    "xlm",
+    "link",
+    "dot",
+    "yfi",
+    "usd",
+    "aed",
+    "ars",
+    "aud",
+    "bdt",
+    "bhd",
+    "bmd",
+    "brl",
+    "cad",
+    "chf",
+    "clp",
+    "cny",
+    "czk",
+    "dkk",
+    "eur",
+    "gbp",
+    "gel",
+    "hkd",
+    "huf",
+    "idr",
+    "ils",
+    "inr",
+    "jpy",
+    "krw",
+    "kwd",
+    "lkr",
+    "mmk",
+    "mxn",
+    "myr",
+    "ngn",
+    "nok",
+    "nzd",
+    "php",
+    "pkr",
+    "pln",
+    "rub",
+    "sar",
+    "sek",
+    "sgd",
+    "thb",
+    "try",
+    "twd",
+    "uah",
+    "vef",
+    "vnd",
+    "zar",
+    "xdr",
+    "xag",
+    "xau",
+    "bits",
+    "sats",
+  ];
 
   useEffect(() => {
     if (!id) return; // Evita ejecutar la petición si `id` es undefined
 
-    fetch(`http://localhost:8000/api/cripto/${id}`)
+    fetch(env.urlPHP() + `/api/cripto/${id}`)
       .then((response) => {
         if (!response.ok) throw new Error("Error al obtener datos");
         return response.json();
@@ -97,11 +164,25 @@ const Cripto: React.FC = () => {
       });
   }, [id]); // Se actualiza si `id` cambia
 
-  if (loading) return <Cargando />;
+  if (loading)
+    return (
+      <div className="flex justify-center items-center">
+        <Cargando />
+      </div>
+    );
   if (!coin)
     return (
       <p className="text-center text-red-500">Criptomoneda no encontrada</p>
     );
+
+    const formatNumberWithSpaces = (num: number): string => {
+      if (isNaN(num) || !isFinite(num)) {
+        return String(num); // Devuelve "NaN" o "Infinity" como string
+      }
+      const parts = num.toString().split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+      return parts.join('.');
+    };
 
   return (
     <div className="p-6 mt-[20vh] bg-white mx-auto">
@@ -115,7 +196,9 @@ const Cripto: React.FC = () => {
           <h2 className="text-xl font-bold">
             {coin.name} ({coin.symbol.toUpperCase()})
           </h2>
-          <p className="text-gray-500">Ranked de mercado: #{coin.market_cap_rank}</p>
+          <p className="text-gray-500">
+            Ranked de mercado: #{coin.market_cap_rank}
+          </p>
           <p className="text-blue-400 hover:underline">
             <a href={coin.links.homepage}>Pagina principal</a>
           </p>
@@ -135,15 +218,54 @@ const Cripto: React.FC = () => {
       <div className="w-full p-4 border rounded-lg shadow-md flex flex-row justify-around">
         <div className="mt-4 space-y-2">
           <p className="text-lg font-semibold">Precio:</p>
-          <p>💶 {coin.market_data.current_price.eur} EUR</p>
-          <p>💵 {coin.market_data.current_price.usd} USD</p>
+          <p>💶 {formatNumberWithSpaces(coin.market_data.current_price.eur)} EUR</p>
+          <p>💵 {formatNumberWithSpaces(coin.market_data.current_price.usd)} USD</p>
         </div>
         <div className="mt-4 space-y-2">
           <p className="text-lg font-semibold">
             Valoración totalmente diluida:
           </p>
-          <p>💶 {coin.market_data.fully_diluted_valuation.eur} EUR</p>
-          <p>💵 {coin.market_data.fully_diluted_valuation.usd} USD</p>
+          <p>💶 {formatNumberWithSpaces(coin.market_data.fully_diluted_valuation.eur)} EUR</p>
+          <p>💵 {formatNumberWithSpaces(coin.market_data.fully_diluted_valuation.usd)} USD</p>
+        </div>
+      </div>
+      <div className="mt-4 w-full p-4 border rounded-lg shadow-md flex flex-row justify-around">
+        <div className="mt-4 space-y-2">
+          <p className="text-lg font-semibold">
+            Valoración en {coin.symbol.toUpperCase()}:
+          </p>
+          {cantidad && (
+            <p>
+              <input
+              type="number"
+              id="cantidad"
+              name="cantidad"
+              step="1"
+              className="border-2 rounded"
+              value={cantidad}
+              onChange={(e) => {
+                setCantidad(e.target.value);
+              }}
+              min="1"
+            /> {coin.symbol.toUpperCase()} ={" "}
+              {formatNumberWithSpaces(cantidad * coin.market_data.current_price[moneda])}{" "}
+              <select
+              name="moneda"
+              id="moneda"
+              className="border-2 rounded"
+              onChange={(e) => {
+                setMoneda(e.target.value);
+              }}
+              value={moneda}
+            >
+              {arrayMonedas.map((moneda) => (
+                <option value={moneda} key={moneda}>
+                  {moneda.toUpperCase()}
+                </option>
+              ))}
+            </select>
+            </p>
+          )}
         </div>
       </div>
       <div className="mt-4 space-y-2">
@@ -151,13 +273,13 @@ const Cripto: React.FC = () => {
           <div className="mt-2 flex flex-row justify-around">
             <div>
               <p className="text-lg font-semibold">Max. 24h:</p>
-              <p>💶 {coin.market_data.high_24h.eur} EUR</p>
-              <p>💵 {coin.market_data.high_24h.usd} USD</p>
+              <p>💶 {formatNumberWithSpaces(coin.market_data.high_24h.eur)} EUR</p>
+              <p>💵 {formatNumberWithSpaces(coin.market_data.high_24h.usd)} USD</p>
             </div>
             <div>
               <p className="text-lg font-semibold">Min. 24h:</p>
-              <p>💶 {coin.market_data.low_24h.eur} EUR</p>
-              <p>💵 {coin.market_data.low_24h.usd} USD</p>
+              <p>💶 {formatNumberWithSpaces(coin.market_data.low_24h.eur)} EUR</p>
+              <p>💵 {formatNumberWithSpaces(coin.market_data.low_24h.usd)} USD</p>
             </div>
           </div>
           <p

@@ -5,12 +5,14 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useParams,
+  useSearchParams,
 } from "react-router";
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import Cabecera from "app/routes/minimo/Cabecera";
-import Footer from "app/routes/minimo/Pie";
+import Cabecera from "app/components/minimo/Cabecera";
+import Footer from "app/components/minimo/Pie";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -32,6 +34,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
+        <link rel="icon" href="/imagenes/intercoin.png" />
         <Links />
       </head>
       <body>
@@ -43,24 +46,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function App({
-  aparecer = () => true,
-}: {
-  aparecer?: () => boolean;
-}) {
+export default function App() {
   return (
     <>
-      {aparecer() ? (
-        <>
+        <div 
+          className="flex flex-col min-h-screen">
           <Cabecera />
-          <div id="body">
+          <div id="body" className="flex flex-col flex-grow pt-[14vh]">
             <Outlet />
           </div>
           <Footer />
-        </>
-      ) : (
-        <Outlet />
-      )}
+        </div>
     </>
   );
 }

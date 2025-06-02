@@ -1,8 +1,9 @@
 import type { Route } from "./+types/cripto";
 import React, { useState, useEffect } from "react";
-import Cargando from "./minimo/cargando";
+import Cargando from "../components/minimo/cargando";
 import { useNavigate, Link, useSearchParams } from "react-router";
 import "../app.css";
+import env from '../services/env';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -35,7 +36,7 @@ const Criptos: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`http://localhost:8000/api/cripto?pagina=${pagina}`)
+    fetch(env.urlPHP() + `/api/cripto?pagina=${pagina}`)
       .then((response) => {
         if (!response.ok) {
           console.error(`Error de respuesta: ${response.status}`);
@@ -58,11 +59,11 @@ const Criptos: React.FC = () => {
       });
   }, [pagina]); // Se ejecuta cuando cambia `pagina`
 
-  if (loading) return <Cargando />;
+  if (loading) return <div className="flex justify-center items-center"><Cargando /></div>;
 
   return (
     <>
-    <div className="mt-[25vh] mb-[5vh] grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+    <div className="m-auto grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
       {data.map((coin, index) => (
         <div
           key={coin.id}

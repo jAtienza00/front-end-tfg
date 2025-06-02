@@ -1,6 +1,7 @@
 import type { Route } from "./+types/home";
 import { useNavigate, Link } from "react-router";
 import "../app.css";
+import env from '../services/env';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -10,7 +11,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 import React, { useState, useEffect } from "react";
-import Cargando from "./minimo/cargando";
+import Cargando from '../components/minimo/cargando';
 
 // Definir el tipo de dato que devuelve la API
 interface Cripto {
@@ -28,8 +29,9 @@ const Inicio: React.FC = () => {
   const [data, setData] = useState<Cripto[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
+
   useEffect(() => {
-    fetch("http://localhost:8000/api/cripto/top")
+    fetch(env.urlPHP() + "/api/cripto/top")
       .then((response) => {
         if (!response.ok) throw new Error("Error al obtener datos");
         return response.json();
@@ -44,7 +46,7 @@ const Inicio: React.FC = () => {
       });
   }, []);
 
-  if (loading) return <Cargando />;
+  if (loading) return <div className="flex justify-center items-center"><Cargando /></div>;
   let cont: Record<number, number> = {
     1: 2,
     2: 1,
@@ -52,7 +54,7 @@ const Inicio: React.FC = () => {
   };
 
   return (
-    <div className="mt-[25vh] mb-[5vh] grid grid-cols-1 items-center justify-around sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+    <div className="m-auto grid grid-cols-1 items-center justify-around sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
       {data
         .sort(
           (a, b) =>

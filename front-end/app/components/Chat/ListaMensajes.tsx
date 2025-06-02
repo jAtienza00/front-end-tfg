@@ -3,6 +3,7 @@ import React, { useRef, useEffect } from 'react';
 interface Mensaje {
   usuario: string;
   texto: string;
+  room: string;
 }
 
 interface PropiedadesListaMensajes {
@@ -19,7 +20,7 @@ const ListaMensajes: React.FC<PropiedadesListaMensajes> = ({ mensajes, usuarioAc
   }, [mensajes]);
 
   return (
-    <div className="h-64 overflow-y-auto border rounded p-2 bg-gray-50">
+    <div className="h-100 overflow-y-auto border rounded p-2 bg-gray-50">
       {mensajes.map((mensaje, indice) => {
         const esUsuarioActual = mensaje.usuario === usuarioActual;
         
