@@ -94,7 +94,7 @@ export default function VistasChatsPage() {
     return (
       <div className="container mx-auto p-6 text-center">
         <h1 className="text-2xl font-bold text-red-700 mb-4">
-          Error al Cargar Chats
+          Error al Cargar Chats. Comprueba que has iniciado sesion.
         </h1>
       </div>
     );
