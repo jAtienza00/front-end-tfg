@@ -137,12 +137,10 @@ export const ProveedorChat: React.FC<ProveedorChatProps> = ({
     const enviado = ServicioSocket.enviarMensaje({ ...datosMensaje});
     if (enviado) {
       console.log("Mensaje enviado correctamente");
-      // Añadir el mensaje a la lista local para mostrar inmediatamente
-      setMensajes((mensajesAnteriores) => [...mensajesAnteriores, datosMensaje]);
+      //setMensajes((mensajesAnteriores) => [...mensajesAnteriores, datosMensaje]);
     } else {
       console.error("Error al enviar el mensaje");
-      // Intentar guardar el mensaje localmente de todos modos
-      setMensajes((mensajesAnteriores) => [...mensajesAnteriores, {...datosMensaje, usuario: `${usuario} (sin conexión)`}]);
+      //setMensajes((mensajesAnteriores) => [...mensajesAnteriores, {...datosMensaje, usuario: `${usuario} (sin conexión)`}]);
     }
   };
   
