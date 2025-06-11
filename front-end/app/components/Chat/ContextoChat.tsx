@@ -137,10 +137,10 @@ export const ProveedorChat: React.FC<ProveedorChatProps> = ({
     const enviado = ServicioSocket.enviarMensaje({ ...datosMensaje});
     if (enviado) {
       console.log("Mensaje enviado correctamente");
-      //setMensajes((mensajesAnteriores) => [...mensajesAnteriores, datosMensaje]);
+      setMensajes((mensajesAnteriores) => [...mensajesAnteriores, datosMensaje]);
     } else {
       console.error("Error al enviar el mensaje");
-      //setMensajes((mensajesAnteriores) => [...mensajesAnteriores, {...datosMensaje, usuario: `${usuario} (sin conexión)`}]);
+      setMensajes((mensajesAnteriores) => [...mensajesAnteriores, {...datosMensaje, usuario: `${usuario} (sin conexión)`}]);
     }
   };
   
