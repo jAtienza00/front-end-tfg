@@ -13,6 +13,8 @@ Para usarlo (localmente) se descargara las siguientes partes desde github:
 - https://github.com/Sala2-20/api-py-user-tfg
 - https://github.com/Sala2-20/front-end-tfg
 
+Al front habra que descargar los archivos necesarios con **npm install**, en Node 22.
+
 ## Creadores
 
 Formamos parte de un grado superior de desarrollo de aplicaciones web.
